@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Power Grid Analyzer</title>
 
-  <!-- ✅ Correct vis-network library -->
   <script src="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.js"></script>
 
   <style>
@@ -44,12 +43,10 @@
       nodes.clear();
       edges.clear();
 
-      // Add cities as nodes
       jsonData.cities.forEach(city => {
         nodes.add({ id: city, label: city });
       });
 
-      // Add connections as edges
       jsonData.edges.forEach(([from, to], idx) => {
         edges.add({ id: idx, from, to, color: { color: "black" } });
       });
@@ -76,7 +73,7 @@
         return;
       }
 
-      renderGraph(inputData); // Show updated graph
+      renderGraph(inputData); 
 
       fetch("/api/analyze", {
         method: "POST",
@@ -90,10 +87,8 @@
       .then(data => {
         document.getElementById("output").innerText = JSON.stringify(data, null, 2);
 
-        // Reset all edges to black
         edges.forEach(e => edges.update({ id: e.id, color: { color: "black" } }));
 
-        // Highlight bridge edges in red
         if (data.bridges) {
           data.bridges.forEach(([from, to]) => {
             const edgeId = edges.getIds().find(id => {
